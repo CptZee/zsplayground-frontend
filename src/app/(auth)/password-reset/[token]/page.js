@@ -46,12 +46,13 @@ const PasswordReset = () => {
             <form onSubmit={submitForm}>
                 {/* Email Address */}
                 <div>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">Email (READ ONLY)</Label>
 
                     <Input
                         id="email"
                         type="email"
                         value={email}
+                        disabled={!!email}
                         className="block mt-1 w-full"
                         onChange={event => setEmail(event.target.value)}
                         required
@@ -63,7 +64,7 @@ const PasswordReset = () => {
 
                 {/* Password */}
                 <div className="mt-4">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">New Password</Label>
                     <Input
                         id="password"
                         type="password"
@@ -82,7 +83,7 @@ const PasswordReset = () => {
                 {/* Confirm Password */}
                 <div className="mt-4">
                     <Label htmlFor="passwordConfirmation">
-                        Confirm Password
+                        Confirm New Password
                     </Label>
 
                     <Input
