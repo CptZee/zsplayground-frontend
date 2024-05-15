@@ -19,6 +19,7 @@ const PasswordReset = () => {
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     const submitForm = event => {
         event.preventDefault()
@@ -29,6 +30,7 @@ const PasswordReset = () => {
             password_confirmation: passwordConfirmation,
             setErrors,
             setStatus,
+            setIsLoading,
         })
     }
 
@@ -101,7 +103,7 @@ const PasswordReset = () => {
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    <Button>Reset Password</Button>
+                    <Button loading={isLoading} onClick={submitForm}>Reset Password</Button>
                 </div>
             </form>
         </>

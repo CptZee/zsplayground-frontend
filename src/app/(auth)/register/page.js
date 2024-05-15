@@ -22,12 +22,13 @@ const Page = () => {
     const [firstname, setFirstname] = useState('')
     const [middleInitial, setMiddleInitial] = useState('')
     const [birthdate, setBirthDate] = useState('')
-    const [showBirthdate, setShowBirthdate] = useState(false)
+    const [showBirthdate, setShowBirthdate] = useState(true)
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
     const [errors, setErrors] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     const submitForm = event => {
         event.preventDefault()
@@ -43,6 +44,7 @@ const Page = () => {
             password,
             password_confirmation: passwordConfirmation,
             setErrors,
+            setIsLoading,
         })
     }
 
@@ -64,7 +66,7 @@ const Page = () => {
                         maxLength={50}
                     />
 
-                    <InputError messages={errors.name} className="mt-2" />
+                    <InputError messages={errors.last_name} className="mt-2" />
                 </Col>
                 <Col span={11}>
                     <Label htmlFor="first_name">First Name</Label>
@@ -80,7 +82,7 @@ const Page = () => {
                         maxLength={50}
                     />
 
-                    <InputError messages={errors.name} className="mt-2" />
+                    <InputError messages={errors.first_name} className="mt-2" />
                 </Col>
 
                 <Col span={3}>
@@ -96,7 +98,7 @@ const Page = () => {
                         maxLength={1}
                     />
 
-                    <InputError messages={errors.name} className="mt-2" />
+                    <InputError messages={errors.middle_initial} className="mt-2" />
                 </Col>
             </Row>
 
@@ -116,7 +118,7 @@ const Page = () => {
                     required
                 />
 
-                <InputError messages={errors.email} className="mt-2" />
+                <InputError messages={errors.birthdate} className="mt-2" />
             </Row>
 
             {/* Public Age */}
@@ -154,7 +156,7 @@ const Page = () => {
                     required
                 />
 
-                <InputError messages={errors.email} className="mt-2" />
+                <InputError messages={errors.username} className="mt-2" />
             </Row>
 
             {/* Email Address */}
@@ -220,7 +222,7 @@ const Page = () => {
                     Already registered?
                 </Link>
 
-                <Button className="ml-4">Register</Button>
+                <Button className="ml-4" loading={isLoading} onClick={submitForm}>Register</Button>
             </Row>
         </form>
     )

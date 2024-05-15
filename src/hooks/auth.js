@@ -20,7 +20,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     const csrf = () => axios.get('/sanctum/csrf-cookie')
 
-    const register = async ({ setErrors, ...props }) => {
+    const register = async ({ setErrors, setIsLoading, ...props }) => {
+        setIsLoading(true)
         await csrf()
 
         setErrors([])
@@ -30,12 +31,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             .then(() => mutate())
             .catch(error => {
                 if (error.response.status !== 422) throw error
-
+                setIsLoading(false)
                 setErrors(error.response.data.errors)
             })
     }
 
-    const login = async ({ setErrors, setStatus, ...props }) => {
+    const login = async ({ setErrors, setStatus, setIsLoading, ...props }) => {
+        setIsLoading(true)
         await csrf()
 
         setErrors([])
@@ -46,12 +48,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             .then(() => mutate())
             .catch(error => {
                 if (error.response.status !== 422) throw error
-
+                setIsLoading(false)
                 setErrors(error.response.data.errors)
             })
     }
 
-    const forgotPassword = async ({ setErrors, setStatus, email }) => {
+    const forgotPassword = async ({ setErrors, setStatus, setIsLoading, email }) => {
+        setIsLoading(true)
         await csrf()
 
         setErrors([])
@@ -65,9 +68,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
                 setErrors(error.response.data.errors)
             })
+            .finally(() => setIsLoading(false))
     }
 
-    const resetPassword = async ({ setErrors, setStatus, ...props }) => {
+    const resetPassword = async ({ setErrors, setStatus, setIsLoading, ...props }) => {
+        setIsLoading(true)
         await csrf()
 
         setErrors([])
@@ -83,9 +88,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
                 setErrors(error.response.data.errors)
             })
+            .finally(() => setIsLoading(false))
     }
 
-    const resendEmailVerification = ({ setStatus }) => {
+    const resendEmailVerification = ({ setStatus, setIsLoading }) => {
         axios
             .post('/email/verification-notification')
             .then(response => setStatus(response.data.status))
@@ -102,7 +108,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     useEffect(() => {
         if (middleware === 'guest' && redirectIfAuthenticated && user)
             router.push(redirectIfAuthenticated)
-        
+
         // Requires accounts to be verified
         if (user?.email_verified_at === null) {
             router.push('/verify-email')

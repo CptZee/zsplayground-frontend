@@ -13,6 +13,7 @@ const Navigation = ({ user }) => {
     const { logout } = useAuth()
 
     const [open, setOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     return (
         <nav className="bg-white border-b border-gray-100">
@@ -61,7 +62,11 @@ const Navigation = ({ user }) => {
                                 </button>
                             }>
                             {/* Authentication */}
-                            <DropdownButton onClick={logout}>
+                            <DropdownButton onClick={async () => {
+                                setIsLoading(true)
+                                await logout()
+                                setIsLoading(false)
+                            }}>
                                 Logout
                             </DropdownButton>
                         </Dropdown>
@@ -142,7 +147,13 @@ const Navigation = ({ user }) => {
 
                         <div className="mt-3 space-y-1">
                             {/* Authentication */}
-                            <ResponsiveNavButton onClick={logout}>
+                            <ResponsiveNavButton 
+                            enabled={!isLoading}
+                            onClick={async () => {
+                                setIsLoading(true)
+                                await logout()
+                                setIsLoading(false)
+                            }}>
                                 Logout
                             </ResponsiveNavButton>
                         </div>

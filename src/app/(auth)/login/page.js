@@ -1,6 +1,6 @@
 'use client'
 
-import Button from '@/components/Button'
+import { Button } from 'antd'
 import Input from '@/components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
@@ -23,6 +23,7 @@ const Login = () => {
     const [shouldRemember, setShouldRemember] = useState(false)
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if (router.reset?.length > 0 && errors.length === 0) {
@@ -41,6 +42,7 @@ const Login = () => {
             remember: shouldRemember,
             setErrors,
             setStatus,
+            setIsLoading,
         })
     }
 
@@ -113,7 +115,7 @@ const Login = () => {
                         Forgot your password?
                     </Link>
 
-                    <Button className="ml-3">Login</Button>
+                    <Button className="ml-3" loading={isLoading} onClick={submitForm}>Login</Button>
                 </div>
             </form>
         </>

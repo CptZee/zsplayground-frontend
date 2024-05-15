@@ -3,3 +3,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.no-hover:hover {
+    box-shadow: none !important;
+    background-color: inherit !important;
+  }

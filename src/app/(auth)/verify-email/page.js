@@ -11,6 +11,7 @@ const Page = () => {
     })
 
     const [status, setStatus] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     return (
         <>
@@ -29,14 +30,18 @@ const Page = () => {
             )}
 
             <div className="mt-4 flex items-center justify-between">
-                <Button onClick={() => resendEmailVerification({ setStatus })}>
+                <Button loading={isLoading} onClick={() => resendEmailVerification({ setStatus })}>
                     Resend Verification Email
                 </Button>
 
                 <button
                     type="button"
                     className="underline text-sm text-gray-600 hover:text-gray-900"
-                    onClick={logout}>
+                    onClick={async () => {
+                        setIsLoading(true)
+                        await logout()
+                        setIsLoading(false)
+                    }}>
                     Logout
                 </button>
             </div>
