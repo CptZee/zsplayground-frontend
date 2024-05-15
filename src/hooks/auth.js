@@ -102,6 +102,12 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     useEffect(() => {
         if (middleware === 'guest' && redirectIfAuthenticated && user)
             router.push(redirectIfAuthenticated)
+        
+        // Requires accounts to be verified
+        if (user?.email_verified_at === null) {
+            router.push('/verify-email')
+        }
+
         if (
             window.location.pathname === '/verify-email' &&
             user?.email_verified_at
